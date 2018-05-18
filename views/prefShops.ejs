@@ -49,22 +49,25 @@
             text-align: center;
             margin-top: 0;
         }
+
+        header {
+            float: right;
+        }
     </style>
 </head>
 <body>
+    
     <div class="container">
-        <% for(var i=0; i<Shops.length; i++) { %>
+        <% for(var i=0; i<prefShops.length; i++) { %>
             <div class="box">
-                <h3 id="<%= Shops[i].name %>"><%= Shops[i].name %></h3>
+                <h3 id="<%= prefShops[i].name %>"><%= prefShops[i].name %></h3>
                 <div class="image-container">
-                    <img src= "<%= Shops[i].picture %>">
+                    <img src= "<%= prefShops[i].picture %>">
                 </div>
                 <div class="buttons">
                     <form method="POST" action="/like">
-                        <input type="hidden" name="shopId" value="<%= Shops[i].id %>">   
+                        <input type="hidden" name="shopId" value="<%= prefShops[i].id %>">   
                         <input type="submit" name="like" value="like">
-                        <!-- <button type="submit" name= "dislike" class="btn btn-danger" >Dislike</button>
-                        <button type="submit" name="like" class="btn btn-success" >Like</button> -->
                     </form>
                 </div>
             </div>

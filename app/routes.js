@@ -42,23 +42,40 @@ module.exports = function(app, passport) {
     }));
 
     app.post('/like', (req, res) => {
+        // push the id of the shop to the prefShop array in database to keep track of the user's preferred shops 
         Shop.find({_id: new ObjectId(req.body.shopId)}, function(err, shop) {
-            // User.find({"local.username": req.user.local.username}, function(err, user) {
-            //    //console.log(user[0].local.username);
-            //   console.log('updatedShops => ', updatedShops);
-            // });
-            // push the id of the shop to the prefShop array in database to keep track of the user's preferred shops 
-            User.update({"local.username": req.user.local.username}, {$push: {"local.prefShop": shop[0]._id}}, function(err) {
-                if(err) {
-                    console.log('error');
+            console.log('Shop => ', shop[0]);
+            console.log('Logged user => ', req.user.local.username);
+            User.update({ "local.username": req.user.local.username }, {$push: { "prefShop": shop[0]}}, function (err) {
+                if (err) {
+                    console.log(err);
                 }
             });
         });
-       // console.log('test => ', req.body.shopId);
+        // User.update({"local.username": req.user.local.username}, {$push: {"prefShop": req.body.shopId}}, function(err) {
+        //     if(err) {
+        //         console.log('error');
+        //     }
+        // });
         res.redirect('/shops');
     });
 
     app.get('/prefShops', (req, res) => {
-        
-    })
+       
+        // return the preferred shops of the user through their ids
+        console.log('preferred Shops page');
+        User.find({"local.username": req.user.local.username}, function(err, user) {
+            console.log('Preferred shops for current user => ', user[0].prefShop);
+            res.render('prefShops.ejs', {prefShops: user[0].prefShop});
+
+            //arrayShops = user[0].prefShop;
+            //console.log(arrayShops);
+            
+                // for (var i = 0; i < user[0].prefShop.length; i++) {
+                //     Shop.find({ _id: new ObjectId(user[0].prefShop[i]) }, function (err, shop) {
+                //         userPrefShops.push(shop[0]);
+                //     });
+                // }
+            });
+    });
 };
