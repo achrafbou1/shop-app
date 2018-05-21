@@ -24,9 +24,9 @@ var User = require('./app/models/user.js');
 db.on('open', () => {
     var test;
     console.log('Connected to database hosted on mlab');
-    Shop.find({}, function(err, shops){
-        console.log(shops);
-    })
+    // Shop.find({}, function(err, shops){
+    //     console.log(shops);
+    // });
 });
 
 
@@ -57,6 +57,9 @@ require('./config/passport.js')(passport);
 
 // template engine
 app.set('view engine', 'ejs');
+
+// static files
+app.use(express.static(path.join(__dirname , '/public')));
 
 var server = app.listen(port, () => {
     console.log('Listening to port 3000.');

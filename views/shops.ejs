@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="css/shops.css">
     <title>Shops Page</title>
     <style>
         /* body {
@@ -22,7 +23,7 @@
             margin: 1px;
         } */
         
-        .container {
+        /* .container {
             display: flex;
             flex-wrap: wrap;
             padding: 5px;
@@ -52,7 +53,7 @@
 
         header {
             float: right;
-        }
+        } */
     </style>
 </head>
 <body>
@@ -67,8 +68,8 @@
                     <img src= "<%= Shops[i].picture %>">
                 </div>
                 <div class="buttons">
-                    <form method="POST" action="/like">
-                        <input type="hidden" name="shopId" value="<%= Shops[i].id %>">   
+                    <form method="POST" action="/like/<%= Shops[i].id %>">
+                        <!-- <input type="hidden" name="shopId" value="<%= Shops[i].id %>">    -->
                         <input type="submit" name="like" value="like">
                         <!-- <button type="submit" name= "dislike" class="btn btn-danger" >Dislike</button>
                         <button type="submit" name="like" class="btn btn-success" >Like</button> -->
