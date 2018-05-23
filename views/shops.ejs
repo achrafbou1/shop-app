@@ -16,13 +16,13 @@
                 <a href="/logout" class="navbar-brand"><i class="fa fa-sign-out"></i>Log out</a>
             </div>
             <ul class="nav navbar-nav navbar-right">
-                <button class="sort">Sort</button>
-                <!-- <a href="/sortShops">Sort href</a> -->
+                <li><a href="#" class="sort"><i class="fa fa-street-view"></i>Sort by distance</a></li>
                 <li><a href="/shops" class="current"><i class="fa fa-eye"></i>Nearby Shops</a></li>
                 <li><a href="/prefShops"><i class="fa fa-heart"></i>Preferred Shops</a></li>
             </ul>
         </div>
     </nav>
+    
     <div class="container">
         <% for(var i=0; i<Shops.length; i++) { %>
             <div class="box">
@@ -43,15 +43,13 @@
 </body>
 <script>
    $(function() {
-       $('.dislike').click(function() {
-            // $(this).closest('.box').css('background-color', 'green');
+       $('.container').on('click', '.dislike', function() {
             var parentBox = $(this).closest('.box');
             parentBox.hide(0, null, function() {
                 console.log('Hiding element');
                 setTimeout(function(){
                     parentBox.show();
-                }, 7200000);
-                console.log('Showing element');
+                }, 7200000); // show it after 2 hours
             });
        });
    });

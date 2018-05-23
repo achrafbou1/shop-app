@@ -1,18 +1,14 @@
 // Remove a shop from the preferred shops page
 $(function () {
     $(".delete").click(function() {
-        // var buttonsContainer = $(this).parent();
-        // var boxContainer = buttonsContainer.parent();
         var boxContainer = $(this).closest('.box');
         var id = $(this).attr("id");
-        //console.log('id of the shops ajax => ', id);
 
         $.ajax({
             type: "POST",
             url: "/removeShop/" + id,
             success: function (data) {
                 console.log('Success! Message: ', data.message);
-                // console.log(commentContainer);
                 boxContainer.remove();
             },
             error: function() {
@@ -24,10 +20,7 @@ $(function () {
 
 // Remove a shop from the main page if it is liked by the user
 $(function() {
-    $(".like").click(function() {
-        // var buttonsContainer = $(this).parent();
-        // var boxContainer = buttonsContainer.parent();
-        // select the closest 'box' to the current element
+    $(".container").on("click", ".like", function() {
         var boxContainer = $(this).closest('.box');
         var id = $(this).attr("id");
 
@@ -49,7 +42,7 @@ $(function() {
 $(function() {
     $('.sort').click(function() {
         $('.container').html(''); // remove all the shops from the page
-        $('.container').append("<div id='loader' style='display: none;'>Loading...</div>"); // loading text 
+        $('.container').append("<div id='loader' style='display: none;'><h1>Loading...</h1></div>"); // loading text 
         $.ajax({
             url: '/sortShops',
             type: 'GET',
@@ -68,20 +61,19 @@ $(function() {
                 $('#loader').hide();
             }
         }).done(function(data) {
-            //console.log('done function data => ', data.shops[0].picture);
             
             // insert the sorted data received from the server
             $.each(data.shops, function(index, value) {
-                //console.log(index + ' : ' + value.name);
+                // construct a box element (same format as in shops.ejs)
                 var box = $('<div></div>').addClass('box');
                 var h3 = $('<h3></h3>').attr('id', value.name).html(value.name);
                 var imageContainer = $('<div></div>').addClass('image-container');
                 var image = $('<img>').attr('src', value.picture);
                 var buttons = $('<div></div>').addClass('buttons');
-                var dislikeButton = $('<button type="button" style="float:left"></button>').addClass('dislike btn btn-danger').html('<i class="fa fa-thumbs-o-down"></i>dislike');
-                var likeButton = $('<button type="button" style="float:right"></button>').addClass('like btn btn-success').html('<i class="fa fa-thumbs-o-up"></i>like');
+                var dislikeButton = $('<button type="button" style="float:left" id="dislikeBtn"></button>').addClass('dislike btn btn-danger').html('<i class="fa fa-thumbs-o-down"></i>Dislike');
+                var likeButton = $('<button type="button" style="float:right"></button>').addClass('like btn btn-success').html('<i class="fa fa-thumbs-o-up"></i>Like');
                 likeButton.attr('id', value._id);
-                //console.log('box => ', box);
+                
                 $('.container').append(box);
                 $('.container div.box:last').append(h3);
                 $('.container div.box:last').append(imageContainer);

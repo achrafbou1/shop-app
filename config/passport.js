@@ -8,13 +8,13 @@ module.exports = function(passport) {
     // passport setup
 
     // serialize user
-    passport.serializeUser(function(user, done) {
+    passport.serializeUser((user, done) => {
         done(null, user.id);
     });
 
     // deserialize user
-    passport.deserializeUser(function(id, done) {
-        User.findById(id, function(err, user) {
+    passport.deserializeUser((id, done) => {
+        User.findById(id, (err, user) => {
             done(err, user);
         });
     });
@@ -27,21 +27,23 @@ module.exports = function(passport) {
     }, function(req, username, password, done) {
         // asynchronous
         // User.findOne wouldnt execute until data is sent back
-       User.findOne({'local.username': username}, function(err, user){
+       User.findOne({'local.username': username}, (err, user) => {
             if(err){
                 return done(err);
             }
+            // if the user already exists, send a flash message
             if(user){
                 return done(null, false, req.flash('signupMessage', 'That username is taken.'));
             } else {
                 // if there is no user with the username, create new one
                 var newUser = new User();
 
-                // set the user's local credentias
+                // set the user's local credentials
                 newUser.local.username = username;
-                newUser.local.password = newUser.generatePassword(password);
+                newUser.local.password = newUser.generatePassword(password); // hash the password
 
-                newUser.save(function(err) {
+                // save the user to the database
+                newUser.save((err) => {
                     if(err){
                         throw err;
                     }
@@ -56,7 +58,7 @@ module.exports = function(passport) {
         passwordField: 'password',
         passReqToCallback: true
     }, function(req, username, password, done) {
-        User.findOne({'local.username': username}, function(err, user) {
+        User.findOne({'local.username': username}, (err, user) => {
             if(err){
                 return done(err);
             }

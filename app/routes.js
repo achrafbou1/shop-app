@@ -43,13 +43,13 @@ module.exports = function(app, passport) {
     app.get('/shops', (req, res) => {
         var nearbyShops; // entirety of nearby shops including preferred shops of the user
         var toRemove; // preferred shops list of the user
-        Shop.find({}, function (err, shops) {
+        Shop.find({}, (err, shops) => {
             nearbyShops = shops;
             User.find({ 'local.username': req.user.local.username }, (err, user) => {
                 toRemove = user[0].prefShop;
 
                 // filtering the nearby shops to remove the preferred shops from the list
-                nearbyShops = nearbyShops.filter(function(el) {
+                nearbyShops = nearbyShops.filter((el) => {
                     return JSON.stringify(toRemove).indexOf(JSON.stringify(el)) < 0;
                 });
                 res.render('shops.ejs', {Shops: nearbyShops});
@@ -60,10 +60,9 @@ module.exports = function(app, passport) {
     // like a shop post request
     app.post('/like/:shopId', (req, res) => {
          // find the shop with its id in the database
-        Shop.find({_id: new ObjectId(req.params.shopId)}, function(err, shop) {
-
+        Shop.find({_id: new ObjectId(req.params.shopId)}, (err, shop) => {
             // push the id of the shop to the prefShop array in database to keep track of the user's preferred shops
-            User.update({ "local.username": req.user.local.username }, {$push: { "prefShop": shop[0]}}, function (err) {
+            User.update({ "local.username": req.user.local.username }, {$push: { "prefShop": shop[0]}}, (err) => {
                 if (err) {
                     console.log(err);
                 }
@@ -76,19 +75,19 @@ module.exports = function(app, passport) {
         }
     });
 
+    // preferred shop GET request
     app.get('/prefShops', (req, res) => {
-        // return the preferred shops of the user through their ids
-        console.log('preferred Shops page');
-        User.find({"local.username": req.user.local.username}, function(err, user) {
+        // query the preferred shops of the user from the database
+        User.find({"local.username": req.user.local.username}, (err, user) => {
             //console.log('Preferred shops for current user => ', user[0].prefShop);
             res.render('prefShops.ejs', {prefShops: user[0].prefShop});
         });
     });
 
+    // removing a shop from preferred shops page POST request
     app.post('/removeShop/:shopId', (req, res) => {
-        var objectId = new ObjectId(req.params.shopId);
-        console.log('backend shop id to be removed => ', req.params.shopId);
-        
+        var objectId = new ObjectId(req.params.shopId); // id passed from AJAX call in the front-end
+    
         // check if request is ajax
         if(req.xhr || req.accepts('json, html') === json){
             res.send({message: "Shop removed from preferred shops!"});
@@ -101,35 +100,31 @@ module.exports = function(app, passport) {
         });
     });
 
+    // sort shops GET request
     app.get('/sortShops', (req, res) => {
-        var distance;
+        var nearbyShops; // entirety of nearby shops including preferred shops of the user
+        var toRemove; // preferred shops list of the user
         Shop.find({}, (err, shops) => {
-            console.log('x coordinates => ', shops[0].location.coordinates[0])
-            console.log('y coordinates => ', shops[0].location.coordinates[1]);
-            distance = Math.sqrt(Math.pow(shops[0].location.coordinates[0], 2) + Math.pow(shops[0].location.coordinates[1], 2));
-            console.log('distance => ', distance);
-            // for(var i=0; i<shops.length; i++) {
-            //     console.log(shops[i].name);
-            // }
-            shops.sort((a, b) => {
-                distance1 = Math.sqrt(Math.pow(a.location.coordinates[0], 2) + Math.pow(a.location.coordinates[1], 2));
-                distance2 = Math.sqrt(Math.pow(b.location.coordinates[0], 2) + Math.pow(a.location.coordinates[1], 2));
-                if(distance1 < distance2) return 1;
-                if(distance1 > distance2) return -1;
-                return 0;
+            nearbyShops = shops;
+            User.find({ 'local.username': req.user.local.username }, (err, user) => {
+                toRemove = user[0].prefShop;
+
+                // filtering the nearby shops to remove the preferred shops from the list
+                nearbyShops = nearbyShops.filter((el) => {
+                    return JSON.stringify(toRemove).indexOf(JSON.stringify(el)) < 0;
+                });
+
+                // sort the nearby shops
+                nearbyShops.sort((a, b) => {
+                    distance1 = Math.sqrt(Math.pow(a.location.coordinates[0], 2) + Math.pow(a.location.coordinates[1], 2));
+                    distance2 = Math.sqrt(Math.pow(b.location.coordinates[0], 2) + Math.pow(a.location.coordinates[1], 2));
+                    if (distance1 < distance2) return 1;
+                    if (distance1 > distance2) return -1;
+                    return 0;
+                });
+
+                res.send({message: 'Shops sorted by distance.', shops: nearbyShops});
             });
-            // for(var i=0; i<3; i++) {
-            //     console.log(shops[i]);
-            // }
-            
-            //res.render('shops.ejs', {Shops: shops});
-            // if its an ajax request
-            res.send({ message: 'Shops sorted by distance', shops: shops});
         });
-        
-        // if(req.xhr || req.accepts('json, html') === json) {
-        //  res.send({message: 'Shops sorted by distance'});
-           
-        // }
     });
 };
