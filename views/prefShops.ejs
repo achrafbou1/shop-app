@@ -8,17 +8,19 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="css/shops.css">
     <title>Shops Page</title>
-    <style>
-        
-    </style>
-    <script>
-        
-    </script>
 </head>
 <body>
-    <header>
-        <a href="/shops">Nearby Shops</a>
-    </header>
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a href="/logout" class="navbar-brand"><i class="fa fa-sign-out"></i>Log out</a>
+            </div>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="/shops"><i class="fa fa-eye"></i>Nearby Shops</a></li>
+                <li><a href="/prefShops" class="current"><i class="fa fa-heart"></i>Preferred Shops</a></li>
+            </ul>
+        </div>
+    </nav>
     <div class="container">
         <% for(var i=0; i<prefShops.length; i++) { %>
             <div class="box" id="<%= prefShops[i].id %>">
@@ -26,7 +28,9 @@
                 <div class="image-container">
                     <img src= "<%= prefShops[i].picture %>">
                 </div>
-                <button id="<%= prefShops[i].id %>" class="delete buttons">Remove</button>
+                <div class="buttons">
+                    <button id="<%= prefShops[i].id %>" class="delete btn btn-warning" style="float: middle;">Remove</button>
+                </div>
             </div>
         <% } %>
     </div>

@@ -8,58 +8,21 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="css/shops.css">
     <title>Shops Page</title>
-    <style>
-        /* body {
-            margin: 0;
-            padding: 0;
-        }
-        #shops {
-            margin-top: 20px;
-            padding: 0;
-            border-style: solid;
-            border-color: red;
-        }
-        #element {
-            margin: 1px;
-        } */
-        
-        /* .container {
-            display: flex;
-            flex-wrap: wrap;
-            padding: 5px;
-        }
-        .box {
-            border: 1px #ccc solid;
-            width: 300px;
-            margin: 20px;
-        }
-        .image-container {
-            border: 2px solid #ccc;
-            width: 150px;
-            height: 150px;
-            margin: auto;
-        }
-        .buttons {
-            margin: auto;
-            margin-top: 10px;
-            margin-bottom: 5px;
-            text-align: center;
-        }
-
-        h3 {
-            text-align: center;
-            margin-top: 0;
-        }
-
-        header {
-            float: right;
-        } */
-    </style>
 </head>
 <body>
-    <header>
-        <a href="/prefShops">Preferred Shops</a>
-    </header>
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a href="/logout" class="navbar-brand"><i class="fa fa-sign-out"></i>Log out</a>
+            </div>
+            <ul class="nav navbar-nav navbar-right">
+                <button class="sort">Sort</button>
+                <!-- <a href="/sortShops">Sort href</a> -->
+                <li><a href="/shops" class="current"><i class="fa fa-eye"></i>Nearby Shops</a></li>
+                <li><a href="/prefShops"><i class="fa fa-heart"></i>Preferred Shops</a></li>
+            </ul>
+        </div>
+    </nav>
     <div class="container">
         <% for(var i=0; i<Shops.length; i++) { %>
             <div class="box">
@@ -68,20 +31,29 @@
                     <img src= "<%= Shops[i].picture %>">
                 </div>
                 <div class="buttons">
-                    <form method="POST" action="/like/<%= Shops[i].id %>">
-                        <!-- <input type="hidden" name="shopId" value="<%= Shops[i].id %>">    -->
-                        <input type="submit" name="like" value="like">
-                        <!-- <button type="submit" name= "dislike" class="btn btn-danger" >Dislike</button>
-                        <button type="submit" name="like" class="btn btn-success" >Like</button> -->
-                    </form>
+                    <button type="button" class="dislike btn btn-danger" id="dislikeBtn" style="float:left;"><i class="fa fa-thumbs-o-down"></i>Dislike</button>
+                    <button type="button" class="like btn btn-success" id="<%= Shops[i].id %>" style="float:right;"><i class="fa fa-thumbs-o-up"></i>Like</button>
                 </div>
             </div>
         <% } %>
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="js/ajaxFuncs.js"></script>
 </body>
 <script>
-   
+   $(function() {
+       $('.dislike').click(function() {
+            // $(this).closest('.box').css('background-color', 'green');
+            var parentBox = $(this).closest('.box');
+            parentBox.hide(0, null, function() {
+                console.log('Hiding element');
+                setTimeout(function(){
+                    parentBox.show();
+                }, 7200000);
+                console.log('Showing element');
+            });
+       });
+   });
 </script>
 </html>
