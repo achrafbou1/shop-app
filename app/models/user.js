@@ -8,14 +8,17 @@ var UserSchema = mongoose.Schema({
         username: String,
         password: String
     },
-    prefShop: [Shop]
-    // made local credentials for future versions of the app that would allow Google, Facebook etc sign up options
+    prefShop: [Shop] // use the shop schema for the element type of the array
+
+    // made local credentials for "future versions" of the app that would allow Google, Facebook etc sign up options
 });
 
+// hash the password
 UserSchema.methods.generatePassword = function(password) {
     return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
 };
 
+// check if the input password is valid
 UserSchema.methods.validPassword = function(password) {
     return bcrypt.compareSync(password, this.local.password);
 };
