@@ -7,10 +7,10 @@ An application that allows users to create an account and to see the list of all
 # Getting Started
 
 To get the Node server running locally:
-
+- Install Node from https://nodejs.org/en/download/
 - Clone this repo
-- `npm install` to install all required dependencies
-- `npm start` to start the local server
+- Run `npm install` to install all required dependencies
+- Run `npm start` to start the local server
 
 # Code Overview
 
