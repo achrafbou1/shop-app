@@ -1,6 +1,6 @@
 # Application overview
 
-An application that allows people like Alfie to see the list of all the nearby shops, as well as to keep track of their favorite ones.
+An application that allows users to create an account and to see the list of all the nearby shops, as well as to keep track of their favorite ones.
 
 ## Installation
 
