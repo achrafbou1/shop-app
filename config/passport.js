@@ -25,7 +25,6 @@ module.exports = function(passport) {
         passwordField: 'password',
         passReqToCallback: true // passing the whole request to the callback function
     }, function(req, username, password, done) {
-        // asynchronous
         // User.findOne wouldnt execute until data is sent back
        User.findOne({'local.username': username}, (err, user) => {
             if(err){

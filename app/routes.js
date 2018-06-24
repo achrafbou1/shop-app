@@ -1,9 +1,7 @@
 var Shop = require('../app/models/shop.js');
 var User = require('../app/models/user.js');
 var ObjectId = require('mongodb').ObjectId;
-
 module.exports = function(app, passport) {
-    
     // home page
     app.get('/', (req, res) => {
        // res.render('index.ejs');
@@ -52,7 +50,14 @@ module.exports = function(app, passport) {
                 nearbyShops = nearbyShops.filter((el) => {
                     return JSON.stringify(toRemove).indexOf(JSON.stringify(el)) < 0;
                 });
-                res.render('shops.ejs', {Shops: nearbyShops});
+                //res.render('shops.ejs', {Shops: nearbyShops});
+                console.log('Data received from ajax post request: ', req.body.boxes);
+                if(req.xhr) {
+                    res.send({ message: 'getting shops successful' });
+                } else {
+                    res.render('shops.ejs', {Shops: nearbyShops});
+                }
+                
             });
         });
     });

@@ -1,3 +1,22 @@
+$(function() {
+    // select all boxes (shops) that have the dislike id
+    $(".getShops").click(function() {
+        var boxes = $('#disliked').closest('.box');
+        console.log('test clicking on link');
+        $.ajax({
+            type: 'POST',  // post request to the backend to display the shops
+            url: '/shops',
+            data: boxes,
+            success: function (data) {
+                console.log('Message => ', data.message);
+            },
+            error: function () {
+                console.log('Failure to send disliked shops');
+            }
+        });
+    });
+});
+
 // Remove a shop from the preferred shops page
 $(function () {
     $(".delete").click(function() {
@@ -25,7 +44,7 @@ $(function() {
         var id = $(this).attr("id");
 
         $.ajax({
-            url: '/like/' + id,
+            url: '/like/' + id, // sendin the id of the shop to the backend server
             type: 'POST',
             success: function(data) {
                 console.log('Success! Message: ', data.message);

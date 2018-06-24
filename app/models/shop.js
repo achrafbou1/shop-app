@@ -2,7 +2,6 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var ShopSchema = mongoose.Schema({
-    // add fields 
     picture:    String,
     name:       String,
     email:      String,

@@ -17,7 +17,7 @@
             </div>
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="#" class="sort"><i class="fa fa-street-view"></i>Sort by distance</a></li>
-                <li><a href="/shops" class="current"><i class="fa fa-eye"></i>Nearby Shops</a></li>
+                <li><a href="/shops" class="current getShops"><i class="fa fa-eye"></i>Nearby Shops</a></li>
                 <li><a href="/prefShops"><i class="fa fa-heart"></i>Preferred Shops</a></li>
             </ul>
         </div>
@@ -42,9 +42,11 @@
     <script src="js/ajaxFuncs.js"></script>
 </body>
 <script>
+    // function to hide a disliked shop for 2 hours
    $(function() {
        $('.container').on('click', '.dislike', function() {
             var parentBox = $(this).closest('.box');
+            $(this).attr('id', 'disliked');
             parentBox.hide(0, null, function() {
                 console.log('Hiding element');
                 setTimeout(function(){

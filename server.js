@@ -18,9 +18,8 @@ var app = express();
 // connecting to mlab
 mongoose.connect(configDB.url);
 var db = mongoose.connection;
-var Shop = require('./app/models/shop.js');
-var User = require('./app/models/user.js');
 
+// Check the connection to the database and log it
 db.on('open', () => {
     console.log('Connected to database hosted on mlab');
 });
